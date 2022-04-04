@@ -14,15 +14,12 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('')
 
   const updateSearchQuery = (e) => {
-    setSearchQuery(e)
+    e.preventDefault()
     fetchJobs()
   }
 
-  useEffect(() => {
-    fetchJobs()
-  }, [])
-
   const fetchJobs = async () => {
+    console.log(searchQuery)
     try {
       const response = await fetch(
         'https://strive-jobs-api.herokuapp.com/jobs?search=' + searchQuery,
@@ -51,9 +48,7 @@ const Home = () => {
                 type="text"
                 placeholder="type job/area here"
                 value={searchQuery}
-                onChange={(e) =>
-                  setSearchQuery({ searchQuery: e.target.value })
-                }
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </Form.Group>
             <Button variant="primary" type="submit">
@@ -69,6 +64,7 @@ const Home = () => {
                 <ListGroup.Item key={job._id}>
                   <h4>{job.title}</h4>
                   <a href="/">{job.company_name}</a>
+                  <p className="mb-0">{job.candidate_required_location}</p>
                 </ListGroup.Item>
               ))
               .slice(0, 20)}
