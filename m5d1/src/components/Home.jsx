@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+// import { Link } from 'react-router-dom'
 import {
   Navbar,
   Form,
@@ -11,6 +11,12 @@ import {
 
 const Home = () => {
   const [jobList, setJobList] = useState([])
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const updateSearchQuery = (e) => {
+    setSearchQuery(e)
+    fetchJobs()
+  }
 
   useEffect(() => {
     fetchJobs()
@@ -18,13 +24,17 @@ const Home = () => {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch('https://strive-jobs-api.herokuapp.com/jobs')
+      const response = await fetch(
+        'https://strive-jobs-api.herokuapp.com/jobs?search=' + searchQuery,
+      )
       if (response.ok) {
         const data = await response.json()
         console.log(data)
-        setJobList(data)
+        setJobList(data.data)
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -35,9 +45,16 @@ const Home = () => {
       <br />
       <Container>
         <Row className="justify-content-center">
-          <Form className="d-flex">
+          <Form className="d-flex" onSubmit={updateSearchQuery}>
             <Form.Group className="mb-0 mr-2">
-              <Form.Control type="text" placeholder="type job/area here" />
+              <Form.Control
+                type="text"
+                placeholder="type job/area here"
+                value={searchQuery}
+                onChange={(e) =>
+                  setSearchQuery({ searchQuery: e.target.value })
+                }
+              />
             </Form.Group>
             <Button variant="primary" type="submit">
               Search
@@ -45,15 +62,16 @@ const Home = () => {
           </Form>
         </Row>
         <br />
-        <Row>
+        <Row className="justify-content-center">
           <ListGroup>
             {jobList
               .map((job) => (
-                <ListGroup.Item>
-                  {job.title}・{job.company_name}
+                <ListGroup.Item key={job._id}>
+                  <h4>{job.title}</h4>
+                  <a href="/">{job.company_name}</a>
                 </ListGroup.Item>
               ))
-              .slice(0, 9)}
+              .slice(0, 20)}
           </ListGroup>
         </Row>
       </Container>
