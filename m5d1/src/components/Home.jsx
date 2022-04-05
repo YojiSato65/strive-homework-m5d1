@@ -48,7 +48,7 @@ const Home = () => {
       <Row className="justify-content-center">
         <ListGroup>
           {jobList.map((job) => (
-            <SingleJob job={job} />
+            <SingleJob job={job} key={job._id} />
           ))}
         </ListGroup>
       </Row>
