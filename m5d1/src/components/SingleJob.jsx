@@ -15,18 +15,24 @@ const mapDispatchToProps = (dispatch) => ({
 
 const SingleJob = ({ job, addToFav }) => {
   const [company, setCompany] = useState(null)
-  const [companySelected, setCompanySelected] = useState(null)
+  // const [companySelected, setCompanySelected] = useState(null)
 
-  useEffect(() => {
-    setCompany(companySelected)
-  }, [companySelected])
+  // useEffect(() => {
+  //   setCompany(companySelected)
+  // }, [companySelected])
 
   return (
     <ListGroup.Item key={job._id}>
       <h4>{job.title}</h4>
       <div className="d-flex justify-content-between">
         <Link to={'/company=' + job.company_name}>{job.company_name}</Link>
-        <Button variant="success" onClick={addToFav(company)}>
+        <Button
+          variant="success"
+          value={company}
+          onClick={() => {
+            addToFav(company)
+          }}
+        >
           Add to favorite
         </Button>
       </div>
