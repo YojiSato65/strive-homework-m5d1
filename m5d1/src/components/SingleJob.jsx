@@ -2,25 +2,16 @@ import { Button, ListGroup } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addToFavsAction } from '../redux/actions'
-import { useState } from 'react'
-import { useEffect } from 'react'
 
 const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
-  addToFav: (company) => {
+  addToFavs: (company) => {
     dispatch(addToFavsAction(company))
   },
 })
 
-const SingleJob = ({ job, addToFav }) => {
-  const [company, setCompany] = useState(null)
-  // const [companySelected, setCompanySelected] = useState(null)
-
-  // useEffect(() => {
-  //   setCompany(companySelected)
-  // }, [companySelected])
-
+const SingleJob = ({ job, addToFavs }) => {
   return (
     <ListGroup.Item key={job._id}>
       <h4>{job.title}</h4>
@@ -28,9 +19,8 @@ const SingleJob = ({ job, addToFav }) => {
         <Link to={'/company=' + job.company_name}>{job.company_name}</Link>
         <Button
           variant="success"
-          value={company}
           onClick={() => {
-            addToFav(company)
+            addToFavs(job.company_name)
           }}
         >
           Add to favorite
