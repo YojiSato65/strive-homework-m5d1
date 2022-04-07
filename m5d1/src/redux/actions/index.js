@@ -1,8 +1,14 @@
 export const ADD_TO_FAVS = 'ADD_TO_FAVS'
+export const REMOVE_FROM_FAVS = 'REMOVE_FROM_FAVS'
 export const GET_JOBS = 'GET_JOBS'
 
 export const addToFavsAction = (company) => ({
     type: ADD_TO_FAVS,
+    payload: company,
+})
+
+export const removeFromFavsAction = (company) => ({
+    type: REMOVE_FROM_FAVS,
     payload: company,
 })
 

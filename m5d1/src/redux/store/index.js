@@ -9,7 +9,6 @@ const composeFunctionThatAlwaysWorks =
 export const initialState = {
     list: {
         favorites: [],
-        isAdded: null
     },
     job: {
         offers: [],

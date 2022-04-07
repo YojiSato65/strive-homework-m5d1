@@ -30,7 +30,8 @@ const CompanyDetail = () => {
   return (
     <Container className="mt-5">
       <div>
-        <Row className="justify-content-center">
+        <h4 className="text-center">Job offers from this company:</h4>
+        <Row className="justify-content-center mt-3">
           <ListGroup>
             {companyOffers.map((job) => (
               <SingleJob job={job} key={job._id} />
