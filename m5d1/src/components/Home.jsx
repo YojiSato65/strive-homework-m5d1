@@ -1,30 +1,28 @@
 import { useState } from 'react'
 import { Form, Button, Container, Row, ListGroup } from 'react-bootstrap'
 import SingleJob from './SingleJob'
+import { connect } from 'react-redux'
+import { getJobsAction } from '../redux/actions'
 
-const Home = () => {
-  const [jobList, setJobList] = useState([])
+const mapStateToProps = (state) => ({
+  jobList: state.job.offers,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  searchJobs: (searchQuery) => {
+    dispatch(getJobsAction(searchQuery))
+  },
+  // if you want to dispatch inside fetchJobs(fetch) in Home.jsx..
+  // getJobs: (data) => { dispatch({ type: GET_JOBS, payload: data })}
+})
+
+const Home = ({ searchJobs, getJobs, jobList }) => {
+  // const [jobList, setJobList] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
 
   const updateSearchQuery = (e) => {
     e.preventDefault()
-    fetchJobs()
-  }
-
-  const fetchJobs = async () => {
-    console.log(searchQuery)
-    try {
-      const response = await fetch(
-        `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=20`,
-      )
-      if (response.ok) {
-        const data = await response.json()
-        console.log(data)
-        setJobList(data.data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    searchJobs(searchQuery)
   }
 
   return (
@@ -56,4 +54,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
