@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap'
 import SingleJob from './SingleJob'
 import { useDispatch, useSelector } from 'react-redux'
-import { getJobsAction, getJobsLoadingAction } from '../redux/actions'
+import { getJobsAction } from '../redux/actions'
 
 // const mapStateToProps = (state) => ({
 //   jobList: state.job.offers,
