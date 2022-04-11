@@ -19,9 +19,11 @@ export const getJobsErrorAction = () =>
     type: GET_JOBS_ERROR
 })
 
-export const getJobsLoadingAction = () =>
+export const getJobsLoadingAction = (v) =>
 ({
-    type: GET_JOBS_LOADING
+    type: GET_JOBS_LOADING,
+    // asign the payload so that i can manually pass the argument
+    payload: v
 })
 
 export const getJobsAction = (searchQuery) =>
@@ -30,6 +32,9 @@ export const getJobsAction = (searchQuery) =>
     {
         try
         {
+            // dispatch a LOADING with payload true
+            dispatch(getJobsLoadingAction(true))
+
             const response = await fetch(
                 `https://strive-jobs-api.herokuapp.com/jobs?search=${searchQuery}&limit=20`,
             )
@@ -41,21 +46,23 @@ export const getJobsAction = (searchQuery) =>
                     type: GET_JOBS,
                     payload: data.data,
                 })
-                // console.log('before loading')
-                // dispatch(getJobsLoadingAction())
-                // console.log('after loading')
-            }
-            else
+
+            } else
             {
-                console.log('error')
-                dispatch(getJobsErrorAction())
-                dispatch(getJobsLoadingAction())
+                // throw new error takes to 'catch' (axios does it automatically)
+                throw new Error('Response not ok. Status code: ' + response.status)
             }
         } catch (error)
         {
-            console.log(error)
+            console.log(error.message)
             dispatch(getJobsErrorAction())
-            dispatch(getJobsLoadingAction())
+
+        } finally
+        {
+            // this code will be ALWAYS executed, no matter if error or not
+
+            // dispatch LOADING with payload false
+            dispatch(getJobsLoadingAction(false))
         }
     }
 }

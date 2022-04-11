@@ -44,7 +44,7 @@ const Home = () => {
     // searchJobs(searchQuery)
     // toggleSpinner()
     dispatch(getJobsAction(searchQuery))
-    dispatch(getJobsLoadingAction())
+    //dispatch(getJobsLoadingAction())
   }
 
   return (
@@ -66,10 +66,9 @@ const Home = () => {
       </Row>
       <br />
       <Row className="justify-content-center">
-        {/* {isLoading ? (
+        {isLoading ? (
           <Spinner variant="primary" animation="border" />
-        ) : */}
-        {isError ? (
+        ) : isError ? (
           <Alert variant={'danger'}>An error occured during fetch</Alert>
         ) : (
           <ListGroup>

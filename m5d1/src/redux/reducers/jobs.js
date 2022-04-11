@@ -22,7 +22,7 @@ const jobsReducer = (state = initialState.job, action) =>
         case GET_JOBS_LOADING:
             return {
                 ...state,
-                isLoading: !action.payload,
+                isLoading: action.payload,
             }
 
         default:
