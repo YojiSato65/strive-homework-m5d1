@@ -12,6 +12,8 @@ export const initialState = {
     },
     job: {
         offers: [],
+        isError: false,
+        isLoading: false,
     }
 }
 

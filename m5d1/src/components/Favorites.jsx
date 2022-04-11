@@ -1,19 +1,22 @@
 import { Button, Container, ListGroup } from 'react-bootstrap'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { removeFromFavsAction } from '../redux/actions'
 
-const mapStateToProps = (state) => ({
-  companies: state.list.favorites,
-})
+// const mapStateToProps = (state) => ({
+//   companies: state.list.favorites,
+// })
 
-const mapDispatchToProps = (dispatch) => ({
-  removeFromFavs: (company) => {
-    dispatch(removeFromFavsAction(company))
-  },
-})
+// const mapDispatchToProps = (dispatch) => ({
+//   removeFromFavs: (company) => {
+//     dispatch(removeFromFavsAction(company))
+//   },
+// })
 
-const Favorites = ({ companies, removeFromFavs }) => {
+const Favorites = () => {
+  const companies = useSelector((state) => state.list.favorites)
+  const dispatch = useDispatch()
+
   return (
     <>
       <h4 className="mt-5 text-center">Your favorite companies</h4>
@@ -26,7 +29,7 @@ const Favorites = ({ companies, removeFromFavs }) => {
             <Button
               variant="danger"
               onClick={() => {
-                removeFromFavs(company)
+                dispatch(removeFromFavsAction(company))
               }}
             >
               Delete
@@ -38,4 +41,4 @@ const Favorites = ({ companies, removeFromFavs }) => {
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites)
+export default Favorites
